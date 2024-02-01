@@ -15,6 +15,7 @@ func GenerateHash(b *Model.Block) {
 	hash := sha256.New()
 	b.Hash = hex.EncodeToString(hash.Sum([]byte(data)))
 }
+
 func CreateBlock(prvBlock *Model.Block, data Model.BookCheckOut) *Model.Block {
 	block := new(Model.Block)
 	if data.IsGenesis {
@@ -28,4 +29,27 @@ func CreateBlock(prvBlock *Model.Block, data Model.BookCheckOut) *Model.Block {
 	GenerateHash(block)
 	// block.Data.IsGenesis
 	return block
+}
+func ValidBlock(block, prvBlock *Model.Block) bool {
+	if block.PrevHash != prvBlock.Hash {
+		return false
+	}
+	if !ValidateHash(block.Hash, block) {
+		return false
+	}
+	if prvBlock.Pos+1 != block.Pos {
+		return false
+	}
+	return true
+}
+func ValidateHash(hash string, b *Model.Block) bool {
+	GenerateHash(b)
+	return hash == b.Hash
+}
+func AddBlock(blks *Model.BlockChain, data Model.BookCheckOut) {
+	lastBlock := blks.Blocks[len(blks.Blocks)-1]
+	block := CreateBlock(lastBlock, data)
+	if ValidBlock(block, lastBlock) {
+		blks.Blocks = append(blks.Blocks, block)
+	}
 }
