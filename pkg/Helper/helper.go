@@ -4,6 +4,7 @@ import (
 	"crypto/sha256"
 	"encoding/hex"
 	"encoding/json"
+	"fmt"
 	"time"
 
 	"github.com/Ibukun-tech/go_chain/pkg/Model"
@@ -25,12 +26,16 @@ func CreateBlock(prvBlock *Model.Block, data Model.BookCheckOut) *Model.Block {
 	}
 	block.Timestamp = time.Now().String()
 	block.Data = data
-	block.PrevHash = prvBlock.PrevHash
+	block.PrevHash = prvBlock.Hash
 	GenerateHash(block)
 	// block.Data.IsGenesis
 	return block
 }
-func ValidBlock(block, prvBlock *Model.Block) bool {
+func ValidBlock(block *Model.Block, prvBlock *Model.Block) bool {
+	fmt.Println(block.PrevHash != prvBlock.Hash)
+	// fmt.Println(prvBlock.Hash)
+	fmt.Println(34)
+	fmt.Println(block.PrevHash)
 	if block.PrevHash != prvBlock.Hash {
 		return false
 	}

@@ -44,3 +44,28 @@ func TestCreateBlock(t *testing.T) {
 		t.Errorf("expected  %d and prevBlock %d", prevBlock.Pos+1, blck.Pos)
 	}
 }
+
+func NewBlockChain() *Model.BlockChain {
+	st := &Model.BlockChain{}
+	prevBlock := &Model.Block{
+		Pos:       1,
+		Timestamp: "202-04-23",
+		Hash:      "strtsgsgssg",
+	}
+	st.Blocks = append(st.Blocks, prevBlock)
+	return st
+}
+func TestAddBlock(t *testing.T) {
+	blkChain := NewBlockChain()
+
+	data := Model.BookCheckOut{
+		BookId:       "123",
+		User:         "Ibukunoluwa Oyetunji",
+		CheckoutDate: "2024-23-12",
+		IsGenesis:    false,
+	}
+	helper.AddBlock(blkChain, data)
+	if len(blkChain.Blocks) != 2 {
+		t.Errorf("Expected blockchain length to be 2, got %d", len(blkChain.Blocks))
+	}
+}
