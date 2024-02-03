@@ -43,12 +43,7 @@ func NewBook(w http.ResponseWriter, r *http.Request) {
 
 	// s := new(Model.Book)
 }
-func GetBlockchain(w http.ResponseWriter, r *http.Request) {
-	jbyte, _ := json.MarshalIndent(BlockChainConnect, "", "")
-	w.Header().Add("Content-Type", "application/json")
-	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(string(jbyte))
-}
+
 func WriteBlock(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "POST" {
 		st := new(Model.BookCheckOut)
@@ -75,5 +70,10 @@ func WriteBlock(w http.ResponseWriter, r *http.Request) {
 		json.NewEncoder(w).Encode(vals)
 
 	}
-
+	if r.Method == "GET" {
+		jbyte, _ := json.MarshalIndent(BlockChainConnect.Blocks, "", "")
+		w.Header().Add("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		json.NewEncoder(w).Encode(string(jbyte))
+	}
 }
