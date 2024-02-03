@@ -7,5 +7,8 @@ import (
 )
 
 func main() {
-	http.HandleFunc("/", Handler.NewBook)
+	http.HandleFunc("/new", Handler.NewBook)
+	http.HandleFunc("/", Handler.GetBlockchain)
+	http.HandleFunc("/", Handler.WriteBlock)
+	http.ListenAndServe(":4000", nil)
 }
