@@ -1,0 +1,9 @@
+version: "3.8"
+services:
+  go_chain:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: go_chain
+    ports:
+      - "4000:4000"

@@ -52,9 +52,22 @@ func ValidateHash(hash string, b *Model.Block) bool {
 	return hash == b.Hash
 }
 func AddBlock(blks *Model.BlockChain, data Model.BookCheckOut) {
-	lastBlock := blks.Blocks[len(blks.Blocks)-1]
-	block := CreateBlock(lastBlock, data)
-	if ValidBlock(block, lastBlock) {
+	// lastBlock := blks.Blocks[len(blks.Blocks)-1]
+	if len(blks.Blocks) <= 0 && !data.IsGenesis {
+		block := new(Model.Block)
+		block.Pos = 0
+		block.Timestamp = time.Now().String()
+		block.Data = data
+		GenerateHash(block)
 		blks.Blocks = append(blks.Blocks, block)
+	} else {
+		lastBlock := blks.Blocks[len(blks.Blocks)-1]
+		fmt.Println(len(blks.Blocks)-1, "2")
+		fmt.Println(lastBlock)
+		block := CreateBlock(lastBlock, data)
+		if ValidBlock(block, lastBlock) {
+			blks.Blocks = append(blks.Blocks, block)
+		}
 	}
+
 }

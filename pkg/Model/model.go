@@ -10,7 +10,6 @@ type Book struct {
 }
 
 // This respresents the data of book to be checked out
-
 type BookCheckOut struct {
 	BookId       string `json:"book_id"`
 	User         string `json:"user"`
@@ -19,7 +18,6 @@ type BookCheckOut struct {
 }
 
 // Block represent the individual block on the blockchain
-
 type Block struct {
 	Pos       int
 	Data      BookCheckOut
@@ -31,4 +29,9 @@ type Block struct {
 // This represnt the core blockchain implementation
 type BlockChain struct {
 	Blocks []*Block
+}
+
+// For creating an instance of blockchain
+func BlocksStruct() *BlockChain {
+	return new(BlockChain)
 }
